@@ -6,4 +6,6 @@
 
 # Schematics for the tail will be relesed as soon as possible.
 
-#COMEING SOON
+# COMEING SOON
+
+# If you have any problem or have anysuggestions please let me know.

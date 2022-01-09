@@ -114,7 +114,7 @@ while angle:# puts all the code into a loop that won't stop untilll its set to F
         if ('y') in servoport:
             servo_port = False
         else:
-            print('nano the file and put in the ports please')
+            print('nano this file and put in the servo ports please')
             print('now leaving the program')
             exit()
             

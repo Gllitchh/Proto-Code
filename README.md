@@ -8,4 +8,4 @@
 
 # COMEING SOON
 
-# If you have any problem or have anysuggestions please let me know.
+# If you have any problem or have any suggestions please let me know.

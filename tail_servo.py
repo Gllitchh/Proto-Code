@@ -1,6 +1,7 @@
 # Import libraries
 import RPi.GPIO as GPIO
 import time
+import sys
 # Set GPIO trig and echo for a range finder.
 trig =()# please put in the port that the range finder trig is in.
 echo =()# please put in the port that the range finder echo is in.
@@ -24,6 +25,7 @@ servo_6_port = ()
 angle = True
 angle2 = True
 auto_move = False
+servo_port = True
 
 
 def first_tail_part_servos():
@@ -105,8 +107,18 @@ def third_tail_part_servos():#these are to conterol and setup the servos.
     servo2.stop()
     
 while angle:# puts all the code into a loop that won't stop untilll its set to False
+    
+    while servo_port:
+        
+        servoport = input('Did you configure the ports?')
+        if ('y') in servoport:
+            servo_port = False
+        else:
+            print('nano the file and put in the ports please')
+            print('now leaving the program')
+            exit()
+            
     while angle2:# I couldn't think of a differnt way to do it :/
-        which_part = input('test')
         place = input('which way do you want the tail to move from. Please use 1 as Right to Left and 2 as Left and Right:')
         if ('1') in place:# takes user input and puts it into variables 
             place1 = 1
@@ -116,6 +128,7 @@ while angle:# puts all the code into a loop that won't stop untilll its set to F
             angle2 = False
         else:
             print('sorry thats not right') # tells you that its not right :|
+
         
     right_angle = float(input('how much do you want the tail to move to the right between 0 and 90:'))# It's an input for you data
         
@@ -185,7 +198,7 @@ while auto_move:
 
     GPIO.output(trig, True)
     time.sleep(0.00001)
-    GPIO.output(16, False)
+    GPIO.output(trig, False)
 
     while GPIO.input(echo)==0:# set this to the number you set for echo in the begining
         pulse_start = time.time()
@@ -201,7 +214,6 @@ while auto_move:
 
     print("Distance:",distance,"cm")
         
-        first()
         
     if distance <=3.5:
         first_tail_part_servos()# calls them

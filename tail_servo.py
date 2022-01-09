@@ -90,7 +90,7 @@ def third_tail_part_servos():#these are to conterol and setup the servos.
     if place_third == 1:
         servo1.ChangeDutyCycle(7+(third_right_angle/-18))
         servo2.ChangeDutyCycle(7+(third_right_angle/-18))
-        time.sleep(0.3)
+        time.sleep(0.3)# you can change these to your liking.
         servo1.ChangeDutyCycle(7+(third_left_angle/18))
         servo2.ChangeDutyCycle(7+(third_left_angle/18))
     elif place_third ==0:
@@ -197,7 +197,7 @@ while auto_move:
     time.sleep(2)
 
     GPIO.output(trig, True)
-    time.sleep(0.00001)
+    time.sleep(0.00001)# you can change these, but you may brake it.
     GPIO.output(trig, False)
 
     while GPIO.input(echo)==0:# set this to the number you set for echo in the begining

@@ -1,4 +1,5 @@
-# This program runs the servos in a push pull config.
+# This program runs the servos together.
+
 
 
 # Import libraries
@@ -43,19 +44,19 @@ def first_tail_part_servos():
     servo2.start(0)
     if place_first == 1:
         servo1.ChangeDutyCycle(7+(first_right_angle/-18))# To make the servos work togather put a - in front of the 18, thats servo you want to change.
-        servo2.ChangeDutyCycle(7+(first_right_angle/-18))# Or put a - in front of both to make them go backwards
+        servo2.ChangeDutyCycle(7+(first_right_angle/18))# Or put a - in front of both to make them go backwards
         time.sleep(0.3)
         servo1.ChangeDutyCycle(7+(first_left_angle/18))
-        servo2.ChangeDutyCycle(7+(first_left_angle/18))
+        servo2.ChangeDutyCycle(7+(first_left_angle/-18))
     elif place_first == 0:
-        servo1.ChangeDutyCycle(7+(first_left_angle/18))
+        servo1.ChangeDutyCycle(7+(first_left_angle/-18))
         servo2.ChangeDutyCycle(7+(first_left_angle/18))
         time.sleep(0.3)
-        servo1.ChangeDutyCycle(7+(first_right_angle/-18))
+        servo1.ChangeDutyCycle(7+(first_right_angle/18))
         servo2.ChangeDutyCycle(7+(first_right_angle/-18))
     time.sleep(0.3)
-    servo2.ChangeDutyCycle(7)
-    servo1.ChangeDutyCycle(7)
+    servo2.ChangeDutyCycle(0)
+    servo1.ChangeDutyCycle(0)
     time.sleep(0.1)
     servo1.stop()
     servo2.stop()
@@ -69,19 +70,19 @@ def seccond_tail_part_servos():
     servo2.start(0)
     if place_seccond == 1:
         servo1.ChangeDutyCycle(7+(seccond_right_angle/-18))
-        servo2.ChangeDutyCycle(7+(seccond_right_angle/-18))
+        servo2.ChangeDutyCycle(7+(seccond_right_angle/18))
         time.sleep(0.3)
         servo1.ChangeDutyCycle(7+(seccond_left_angle/18))
-        servo2.ChangeDutyCycle(7+(seccond_left_angle/18))
+        servo2.ChangeDutyCycle(7+(seccond_left_angle/-18))
     elif place_seccond ==0:
-        servo1.ChangeDutyCycle(7+(seccond_left_angle/18))
+        servo1.ChangeDutyCycle(7+(seccond_left_angle/-18))
         servo2.ChangeDutyCycle(7+(seccond_left_angle/18))
         time.sleep(0.3)
-        servo1.ChangeDutyCycle(7+(seccond_right_angle/-18))
+        servo1.ChangeDutyCycle(7+(seccond_right_angle/18))
         servo2.ChangeDutyCycle(7+(seccond_right_angle/-18))
     time.sleep(0.3)
-    servo2.ChangeDutyCycle(7)# puts the servos back to point 0
-    servo1.ChangeDutyCycle(7)
+    servo2.ChangeDutyCycle(0)# puts the servos back to point 0
+    servo1.ChangeDutyCycle(0)
     time.sleep(0.1)
     servo1.stop()# stops the servo so it doesn't brake its self
     servo2.stop()
@@ -95,19 +96,19 @@ def third_tail_part_servos():#these are to conterol and setup the servos.
     servo2.start(0)
     if place_third == 1:
         servo1.ChangeDutyCycle(7+(third_right_angle/-18))
-        servo2.ChangeDutyCycle(7+(third_right_angle/-18))
+        servo2.ChangeDutyCycle(7+(third_right_angle/18))
         time.sleep(0.3)# you can change these to your liking.
         servo1.ChangeDutyCycle(7+(third_left_angle/18))
-        servo2.ChangeDutyCycle(7+(third_left_angle/18))
+        servo2.ChangeDutyCycle(7+(third_left_angle/-18))
     elif place_third ==0:
-        servo1.ChangeDutyCycle(7+(third_left_angle/18))
+        servo1.ChangeDutyCycle(7+(third_left_angle/-18))
         servo2.ChangeDutyCycle(7+(third_left_angle/18))
         time.sleep(0.3)# slows down the software. So it doesn't kill its self
-        servo1.ChangeDutyCycle(7+(third_right_angle/-18))
+        servo1.ChangeDutyCycle(7+(third_right_angle/18))
         servo2.ChangeDutyCycle(7+(third_right_angle/-18))
     time.sleep(0.3)
-    servo2.ChangeDutyCycle(7)
-    servo1.ChangeDutyCycle(7)
+    servo2.ChangeDutyCycle(0)
+    servo1.ChangeDutyCycle(0)
     time.sleep(0.1)
     servo1.stop()
     servo2.stop()

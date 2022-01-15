@@ -9,3 +9,17 @@
 # COMEING SOON
 
 # If you have any problem or have any suggestions please let me know.
+
+
+# Part list:
+# 1.At a minimum 2 MS18 9g servo's.
+# 2.1 Raspberry pi with at lest 1 gb of ram, and 14 KBs of free space.
+# 3.1 1K ohm and 1 680 ohm resistor.
+# 4.1 HC-SR04 range finder.
+# 5.2 breadboards.
+# 6.1 3D Printer.
+# 7. The servo case and universal joint files (comeing soon).
+# 8. Male to male jumper wires.
+# 9. Female to male jumper wires.
+# 10. Female to female jumper wires.
+# 11. A lot of time

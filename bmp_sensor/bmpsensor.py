@@ -6,7 +6,7 @@
 
 # There github page is https://github.com/kitflix/raspberrypi-iot-codes
 
-
+#Connect the VIN pin to 3.3v power, the GND pin to GND, the SCL pin to GPIO3(SCL1) aka pin 5, the SDA pin to GPIO2(SDA1) aka pin 3
 
 # sudo apt-get install python-smbus
 import smbus

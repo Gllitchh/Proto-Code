@@ -1,8 +1,8 @@
 # Tail
 # This is a program made for a custom made roboic tail.
-# This program will provide X and Y movemet for it using two servos per jonit and a electric actuator
+# This program will provide X and Y movemet for it using two servos per jonit and electric actuator
 
-# Please go into the servo file and put in the ports that the servos and ranger finder are in. 
+# Please go into the servo file and put in the ports that the servos and ranger finder are in.
 
 # Schematics for the tail will be relesed as soon as possible.
 
@@ -16,10 +16,11 @@
 # 2.1 Raspberry pi with at lest 1 gb of ram, and 14 KBs of free space.
 # 3.1 1K ohm and 1 680 ohm resistor.
 # 4.1 HC-SR04 range finder.
-# 5.2 breadboards.
-# 6.1 3D Printer.
-# 7. The servo case and universal joint files (comeing soon).
-# 8. Male to male jumper wires.
-# 9. Female to male jumper wires.
-# 10. Female to female jumper wires.
-# 11. A lot of time
+# 5.3 electric actuators.
+# 6.2 breadboards.
+# 7.1 3D Printer.
+# 8. The servo case and universal joint files (comeing soon).
+# 9. Male to male jumper wires.
+# 10. Female to male jumper wires.
+# 11. Female to female jumper wires.
+# 12. A lot of time

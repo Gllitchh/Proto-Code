@@ -1,4 +1,4 @@
-# Tail
+# Glitch
 # This is a program made for a custom made Protogen mask.
 # This program will provide LED, web, internet, ear, and antenna movements. 
 #

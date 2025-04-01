@@ -1,26 +1,12 @@
 # Tail
-# This is a program made for a custom made roboic tail.
-# This program will provide X and Y movemet for it using two servos per jonit and electric actuator
-
-# Please go into the servo file and put in the ports that the servos and ranger finder are in.
-
-# Schematics for the tail will be relesed as soon as possible.
-
-# COMEING SOON
-
-# If you have any problem or have any suggestions please let me know.
-
-
+# This is a program made for a custom made Protogen mask.
+# This program will provide LED, web, internet, ear, and antenna movements. 
+#
+# Schematics will be released as soon as possible.
+#
+# COMING SOON
+#
+# If you have any problems or suggestions, please let me know.
+#
+#
 # Part list:
-# 1.At a minimum 2 MS18 9g servo's.
-# 2.1 Raspberry pi with at lest 1 gb of ram, and 14 KBs of free space.
-# 3.1 1K ohm and 1 680 ohm resistor.
-# 4.1 HC-SR04 range finder.
-# 5.3 electric actuators.
-# 6.2 breadboards.
-# 7.1 3D Printer.
-# 8. The servo case and universal joint files (comeing soon).
-# 9. Male to male jumper wires.
-# 10. Female to male jumper wires.
-# 11. Female to female jumper wires.
-# 12. A lot of time

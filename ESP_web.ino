@@ -2,6 +2,7 @@
 #include <ESP8266WebServer.h>
 #include <Wire.h>
 #include <Adafruit_BMP085.h>
+#include <EEPROM.h>
 
 // Wi-Fi credentials
 const char* ssid = "TCC Willis";
@@ -9,13 +10,19 @@ const char* password = "7157160546";
 
 // Create instances
 ESP8266WebServer server(80);
+const String correctPassword = "mypassword"; // Set your EEPROM reset password here
 Adafruit_BMP085 bmp;
 
-// Motor positions (server-side storage)
+// EEPROM address definitions
+#define EEPROM_SIZE 8
+#define MOTOR1_ADDR 0
+#define MOTOR2_ADDR 4
+
+// Motor positions
 int motor1Position = 0;
 int motor2Position = 0;
 
-// Motor Control HTML Page in PROGMEM
+// Motor Control HTML Page (stored in PROGMEM)
 const char html[] PROGMEM = R"rawliteral(
 <html>
 <head>
@@ -101,6 +108,18 @@ const char html[] PROGMEM = R"rawliteral(
       <input type='submit' value='Move Motors'>
     </form>
     <a class='button' href='/temp'>Temp</a>
+    <a class='button' href='#' onclick='promptPassword()'>Reset Positions</a>
+
+<script>
+  function promptPassword() {
+    var password = prompt("Enter password to reset positions:");
+    if (password === "mypassword") {
+      window.location.href = "/clearEEPROM";
+    } else {
+      alert("Incorrect password. Reset cancelled.");
+    }
+  }
+</script>
     <div class='circle-container'>
       <div>
         <div class='label'>Motor 1</div>
@@ -121,7 +140,7 @@ const char html[] PROGMEM = R"rawliteral(
 </html>
 )rawliteral";
 
-// Temperature Page HTML in PROGMEM
+// Temperature Page HTML (stored in PROGMEM)
 const char tempHtml[] PROGMEM = R"rawliteral(
 <html>
 <head>
@@ -154,7 +173,6 @@ const char tempHtml[] PROGMEM = R"rawliteral(
 </html>
 )rawliteral";
 
-// Setup and initialize the system
 void setup() {
   Serial.begin(9600);
 
@@ -172,28 +190,60 @@ void setup() {
   Serial.println("Connected to WiFi");
   Serial.println(WiFi.localIP());
 
+  // Initialize EEPROM
+  EEPROM.begin(EEPROM_SIZE);
+  EEPROM.get(MOTOR1_ADDR, motor1Position);
+  EEPROM.get(MOTOR2_ADDR, motor2Position);
+
   // Routes
   server.on("/", HTTP_GET, []() {
-    server.send_P(200, "text/html", html);
+    server.send(200, "text/html", html);
   });
 
   server.on("/move", HTTP_GET, []() {
     String motor1 = server.arg("motor1");
     String motor2 = server.arg("motor2");
 
-    if (motor1.length() > 0) motor1Position = motor1.toInt();
-    if (motor2.length() > 0) motor2Position = motor2.toInt();
+    if (motor1.length() > 0) {
+      motor1Position = motor1.toInt();
+      EEPROM.put(MOTOR1_ADDR, motor1Position);
+    }
+
+    if (motor2.length() > 0) {
+      motor2Position = motor2.toInt();
+      EEPROM.put(MOTOR2_ADDR, motor2Position);
+    }
+
+    EEPROM.commit();
+
+    // Send motor positions to Serial in UNO-readable format
+    Serial.print("motor1=");
+    Serial.print(motor1Position);
+    Serial.print(";motor2=");
+    Serial.print(motor2Position);
+    Serial.println(";");
 
     server.send(200, "text/html", "<div class='response'><h1>Motors Moved</h1><a href='/'>Go Back</a></div>");
   });
-
+  
   server.on("/getMotorPositions", HTTP_GET, []() {
     String motorPositions = String(motor1Position) + "," + String(motor2Position);
     server.send(200, "text/plain", motorPositions);
   });
 
+
+  server.on("/clearEEPROM", HTTP_GET, []() {
+    motor1Position = 0;
+    motor2Position = 0;
+    EEPROM.put(MOTOR1_ADDR, motor1Position);
+    EEPROM.put(MOTOR2_ADDR, motor2Position);
+    EEPROM.commit();
+    server.send(200, "text/html", "<div class='response'><h1>EEPROM Cleared</h1><a href='/'>Go Back</a></div>");
+  });
+
+
   server.on("/temp", HTTP_GET, []() {
-    server.send_P(200, "text/html", tempHtml);
+    server.send(200, "text/html", tempHtml);
   });
 
   server.on("/readtemp", HTTP_GET, []() {

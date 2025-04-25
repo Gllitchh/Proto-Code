@@ -5,8 +5,8 @@
 #include <EEPROM.h>
 
 // Wi-Fi credentials
-const char* ssid = "TCC Willis";
-const char* password = "7157160546";
+const char* ssid = "wifi name here"; // set to your wifi network
+const char* password = "wifi password here"; // set wifi password
 
 // Create instances
 ESP8266WebServer server(80);

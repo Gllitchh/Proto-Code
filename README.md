@@ -4,7 +4,7 @@
 #
 # Schematics will be released as soon as possible.
 #
-# COMING SOON
+# 
 #
 # If you have any problems or suggestions, please let me know.
 #

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faces Page</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1D1F27;  /* Black background */
+            color: #FFFFFF;  /* White text for contrast */
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #00A9E0;  /* Blue accent for header */
+            margin-top: 50px;
+            font-size: 2rem;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #2A2E3B;  /* Dark background for the container */
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .card {
+            background-color: #3A3D47;  /* Dark background for cards */
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            width: 300px;  /* Fixed width for all cards */
+            height: 400px;  /* Fixed height for all cards */
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card img {
+            width: 100%;
+            height: 60%;  /* Set the image height to take up 60% of the card's height */
+            object-fit: cover;  /* Ensures the image covers the area without distortion */
+            border-bottom: 5px solid #00A9E0;  /* Blue accent border */
+        }
+
+        .card h3 {
+            color: #00A9E0;  /* Blue text for the card title */
+            margin: 20px 0;
+            font-size: 1.4rem;
+        }
+
+        .card p {
+            font-size: 1rem;
+            color: #A0A0A0;  /* Light grey text for description */
+            padding: 10px;
+            background-color: #333333;  /* Dark background for the description */
+            border-radius: 0 0 15px 15px;
+        }
+
+        .container p {
+            color: #BBBBBB;  /* Light grey text for container description */
+            font-size: 1.2rem;
+            margin-top: 30px;
+        }
+
+        .circle-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);  /* Create 3 columns */
+            grid-gap: 20px;  /* Space between cards */
+            justify-items: center;  /* Center the cards within their grid areas */
+        }
+
+        .circle {
+            margin: 20px;
+            position: relative;
+            width: 150px;
+            height: 150px;
+            background-color: #3A3D47;  /* Dark circle background */
+            border-radius: 50%;
+            border: 10px solid #444;  /* Dark border */
+        }
+
+        .circle > canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .label {
+            color: #A0A0A0;  /* Light grey text for labels */
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        a.button {
+            background-color: #00A9E0;  /* Blue button */
+            color: #FFFFFF;
+            padding: 12px 24px;
+            border-radius: 5px;
+            font-size: 18px;
+            text-decoration: none;
+            margin-top: 30px;
+            display: inline-block;
+        }
+
+        a.button:hover {
+            background-color: #0087A0;  /* Darker blue on hover */
+        }
+
+        /* Responsive Layout */
+        @media (max-width: 768px) {
+            .circle-container {
+                grid-template-columns: repeat(2, 1fr);  /* 2 columns on smaller screens */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .circle-container {
+                grid-template-columns: 1fr;  /* 1 column on very small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Faces Gallery</h1>
+        <p>Explore different expressions and emotions</p>
+        <div class="circle-container">
+            <div class="card">
+                <img src="face1.jpg" alt="Face 1">
+                <h3>Face 1</h3>
+                <p>Vibrant and energetic. This face reflects joy.</p>
+            </div>
+            <div class="card">
+                <img src="face2.jpg" alt="Face 2">
+                <h3>Face 2</h3>
+                <p>A calm and serene expression, perfect for a peaceful mood.</p>
+            </div>
+            <div class="card">
+                <img src="face3.jpg" alt="Face 3">
+                <h3>Face 3</h3>
+                <p>Confident and bold, this face exudes self-assurance.</p>
+            </div>
+            <div class="card">
+                <img src="face4.jpg" alt="Face 4">
+                <h3>Face 4</h3>
+                <p>Cheerful and uplifting, this face spreads positivity.</p>
+            </div>
+            <div class="card">
+                <img src="face5.jpg" alt="Face 5">
+                <h3>Face 5</h3>
+                <p>This face carries a mysterious and intriguing vibe.</p>
+            </div>
+            <div class="card">
+                <img src="face6.jpg" alt="Face 6">
+                <h3>Face 6</h3>
+                <p>A peaceful face, perfect for contemplation.</p>
+            </div>
+        </div>
+        <a class="button" href="/">Go Back</a>
+    </div>
+</body>
+</html>

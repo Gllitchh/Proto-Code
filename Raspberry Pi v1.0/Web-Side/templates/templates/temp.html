@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Temperature</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <style>
+    body { 
+      background-color: #1D1F27; 
+      color: #FFFFFF; 
+      font-family: Arial, sans-serif; 
+      text-align: center; 
+      margin: 0; 
+      padding: 0; 
+    }
+
+    .container { 
+      width: 90%; 
+      max-width: 600px; 
+      margin: 80px auto 0; 
+      padding: 20px; 
+      background: #2A2E3B; 
+      border-radius: 10px; 
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); 
+      text-align: center; 
+    }
+
+    h1 { 
+      color: #00A9E0; 
+      margin-top: 50px; 
+    }
+
+    #temp { 
+      font-size: 24px; 
+      margin-top: 20px; 
+      color: #A0A0A0; 
+    }
+
+    /* Sidebar Styles (same as index) */
+    #menuToggle {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      font-size: 28px;
+      color: #00A9E0;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: -250px;
+      width: 250px;
+      height: 100%;
+      background-color: #2A2E3B;
+      padding-top: 60px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+      transition: left 0.3s ease;
+      z-index: 1000;
+    }
+
+    #sidebar a {
+      display: block;
+      padding: 16px;
+      color: #FFFFFF;
+      text-decoration: none;
+      font-size: 18px;
+      border-bottom: 1px solid #444;
+    }
+
+    #sidebar a:hover {
+      background-color: #3A3D47;
+    }
+
+  </style>
+  <script>
+    function fetchTemp() {
+      fetch('/readtemp')
+        .then(response => response.text())
+        .then(data => { document.getElementById('temp').innerHTML = data; });
+    }
+    setInterval(fetchTemp, 2000);
+
+    function toggleSidebar() {
+      var sidebar = document.getElementById('sidebar');
+      if (sidebar.style.left === '0px') {
+        sidebar.style.left = '-250px';
+      } else {
+        sidebar.style.left = '0px';
+      }
+    }
+  </script>
+</head>
+<body onload='fetchTemp()'>
+  <div id="menuToggle" onclick="toggleSidebar()">&#9776;</div>
+  <div id="sidebar">
+    <a href="/">Move Motors</a>
+    <a href="/temp" class="active"><strong>Temperature</strong></a>
+    <a href="/face">Face Control</a>
+  </div>
+  <div class='container'>
+    <h1>Temperature Monitor</h1>
+    <div id='temp'>Loading...</div>
+  </div>
+</body>
+</html>

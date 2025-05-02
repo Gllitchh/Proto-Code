@@ -1,16 +1,39 @@
-This repository includes a Flask-based web server designed for Raspberry Pi, controlling stepper motors, reading temperature via a BMP180 sensor, and presenting a face-selection UI. The system uses HTML, CSS, and JavaScript on the frontend, with Python handling all backend logic and hardware communication.
+# Raspberry Pi Flask Web Controller
 
-This documentation is intended for developers or engineers who want to understand, maintain, or expand the codebase.
+A web-based control interface for Raspberry Pi that includes:
+- Stepper motor control
+- Temperature monitoring (BMP180)
+- Facial expression gallery/selector
+
+Built using Python Flask for the backend and HTML/CSS/JavaScript for the frontend.
+
+---
+
+## Table of Contents
+
+- [Project Structure](#project-structure)  
+- [Installation](#installation)  
+- [Running the App](#running-the-app)  
+- [Code Walkthrough](#code-walkthrough)  
+  - [`app.py`](#apppy---flask-backend)
+  - [`index.html`](#indexhtml---motor-control-page)
+  - [`temp.html`](#temphtml---temperature-monitoring-page)
+  - [`faces.html`](#faceshtml---face-selection--gallery)
+- [Customizing the Project](#customizing-the-project)
+- [Static Files](#static-files)
+- [Optional Features](#optional-features)
+- [Endpoints Summary](#endpoints-summary)
+- [Author and License](#author-and-license)
 
 ---
 
 ## Project Structure
 
-/project-directory
+/your-project-directory
 │
 ├── app.py                 # Main Python Flask backend
-├── static/
-│   └── (images, JS, CSS if needed externally)
+├── static/                # Images, optional JS or CSS
+│   └── images/
 ├── templates/
 │   ├── index.html         # Motor control interface
 │   ├── temp.html          # Temperature page
@@ -19,28 +42,34 @@ This documentation is intended for developers or engineers who want to understan
 
 ---
 
-## `app.py` – Flask Backend
+## Installation
 
-### Purpose:
-Handles routing, sensor reading, and (optionally) GPIO motor control.
+Install the required Python packages:
 
-### How it Works:
-- Flask runs a local server on the Pi
-- Routes serve each HTML page
-- `/move` and `/readtemp` are AJAX endpoints hit by JavaScript
+```bash
+pip install flask smbus2 bme280  # or adafruit_bmp if using Adafruit's BMP library
 
-### Key Components:
 
-```python
-from flask import Flask, render_template, request
-import smbus2
-import bme280  # or use an Adafruit BMP180 library
 
-	•	render_template() loads an HTML file from /templates
-	•	request.args grabs parameters from the frontend
-	•	smbus2 is used for I2C communication with the BMP180 sensor
+⸻
 
-Example Endpoint:
+Running the App
+
+python3 app.py
+
+Then visit:
+http://<your-pi-ip>:5000/
+
+⸻
+
+Code Walkthrough
+
+app.py – Flask Backend
+
+Handles:
+	•	Page routing
+	•	I2C sensor reading (BMP180)
+	•	Motor control commands
 
 @app.route("/move")
 def move_motor():
@@ -49,63 +78,49 @@ def move_motor():
     print(f"Moving motor {motor} {direction}")
     return "OK"
 
-To activate actual GPIO:
-Import RPi.GPIO or gpiozero and map the motor index to GPIO pins.
+Key Points:
+	•	Uses smbus2 for I2C communication.
+	•	Replace print() statements with GPIO control logic.
+	•	Add routes to extend functionality (e.g., for face interaction or login).
 
 ⸻
 
 index.html – Motor Control Page
 
-Purpose:
-
-Provides circular buttons to control motors and their directions.
-
-How it Works:
-	•	Each motor (1–6) has 4 direction buttons: up, down, left, right
-	•	On click, it sends a GET request to /move with the selected motor and direction
-
-Key Elements:
-
-<button onclick="moveMotor(1, 'up')">↑</button>
+A grid of circle buttons sends AJAX calls to the backend.
 
 function moveMotor(motor, direction) {
   fetch(`/move?motor=${motor}&direction=${direction}`);
   localStorage.setItem(`motor${motor}`, direction);
 }
 
-	•	localStorage is used to remember the last direction used, even after page reloads.
+How it Works:
+	•	fetch() hits the /move route with motor number and direction.
+	•	localStorage remembers last selection.
 
-To Customize:
-	•	Add more motors: Duplicate a .motor-control block and update motor number.
-	•	Change layout/colors: Edit the .circle, .motor-control, and body styles.
-	•	Secure the page: Add password protection by checking credentials on the Flask route or add login with Flask sessions.
+Customize:
+	•	Add motors by duplicating .motor-control divs.
+	•	Modify button layout/styles with CSS.
+	•	Add animation or button feedback if needed.
 
 ⸻
 
 temp.html – Temperature Monitoring Page
 
-Purpose:
+Reads temperature every 2 seconds using AJAX.
 
-Displays the current temperature from the BMP180 sensor, refreshed every 2 seconds.
-
-How it Works:
-	•	On page load, JavaScript calls /readtemp
-	•	The response is inserted into the #temp element
-
-Key JavaScript:
+setInterval(fetchTemp, 2000);
 
 function fetchTemp() {
   fetch('/readtemp')
     .then(response => response.text())
     .then(data => { document.getElementById('temp').innerHTML = data; });
 }
-setInterval(fetchTemp, 2000);
 
-	•	You can change the refresh rate by modifying 2000 (in milliseconds).
-
-To Customize:
-	•	Style/Theme: Change container background, font sizes in CSS.
-	•	Units: Convert Celsius to Fahrenheit if needed:
+Customize:
+	•	Adjust refresh interval.
+	•	Change color theme via CSS.
+	•	Convert to Fahrenheit:
 
 temp_f = temp_c * 9/5 + 32
 
@@ -115,75 +130,50 @@ temp_f = temp_c * 9/5 + 32
 
 faces.html – Face Selection / Gallery
 
-Purpose:
-
-Displays a set of facial expression cards (images and descriptions).
-
-How it Works:
-	•	Each face is a styled .card with an image, heading, and caption.
-	•	You can add onclick events to send signals or record which face was selected.
-
-Card Structure:
-
-<div class="card">
-  <img src="face1.jpg" alt="Face 1">
-  <h3>Face 1</h3>
-  <p>This face reflects joy.</p>
-</div>
-
-To Customize:
-	•	Change Images:
-	•	Replace face1.jpg, face2.jpg, etc. in the /static/ folder
-	•	Update the <img src="..."> paths accordingly
-	•	Add More Faces:
-	•	Copy-paste one <div class="card"> block
-	•	Update image file, heading, and description
-	•	Make Faces Interactive:
+Static gallery with image, title, and caption per face.
 
 <div class="card" onclick="selectFace('happy')">
+  <img src="face1.jpg">
+  <h3>Happy</h3>
+  <p>Smiling face</p>
+</div>
+
+Customize:
+	•	Replace images in /static/images/
+	•	Add more cards by duplicating the .card div.
+	•	Add interactivity with onclick + a Flask route:
 
 function selectFace(name) {
   fetch(`/face?name=${name}`);
 }
 
 
-	•	Trigger GPIO on Face Selection: Add a Flask route /face?name=happy and trigger hardware logic accordingly
 
 ⸻
 
-Sidebar Navigation (Used in All Pages)
+Customizing the Project
 
-How it Works:
-	•	Toggles with a hamburger button (☰)
-	•	Slides from the left with CSS transitions
-	•	Same links on all pages to provide navigation
+Changing Images
+	1.	Place your images in static/images/.
+	2.	Update <img src="..."> tags in faces.html:
 
-To Customize:
-	•	Add new menu items by inserting links in all 3 HTML pages:
+<img src="{{ url_for('static', filename='images/yourface.jpg') }}">
 
-<a href="/yournewpage">Your Page</a>
 
-	•	Modify styling in the .sidebar and .openbtn CSS blocks.
 
-⸻
+Changing Theme
 
-Static Files (Images, JS, CSS)
+Edit styles in each .html file under the <style> block. Modify:
+	•	background-color
+	•	Fonts
+	•	Button shapes
+	•	Container sizes
 
-If you want to move all assets to a separate static/ folder, update paths in your HTML like this:
+Adding Password Protection
 
-<img src="{{ url_for('static', filename='images/face1.jpg') }}">
+Add this to app.py:
 
-Then store images in static/images/face1.jpg.
-
-⸻
-
-Password Protection (Optional)
-
-If you want to protect your control interface:
-
-Simple (not secure, just for basic use):
-
-In app.py:
+from flask import session, redirect
 
 @app.before_request
 def require_login():
@@ -191,34 +181,45 @@ def require_login():
     if 'logged_in' not in session and request.endpoint not in allowed_routes:
         return redirect('/login')
 
-Add a /login route and login.html page that sets session['logged_in'] = True.
+Then create a /login route and login.html template that sets:
 
-⸻
-
-How to Run
-
-pip install flask smbus2 bme280  # or your BMP library
-python3 app.py
-
-Open in browser:
-
-http://<raspberrypi-ip>:5000/
+session['logged_in'] = True
 
 
 
 ⸻
 
-Summary of Variables and Endpoints
+Static Files
 
-Variable / ID	Description
-motor	Which motor is being moved (1–6)
-direction	Direction command (up, down, left, right)
-#temp	Div where temperature is inserted
-localStorage	Stores last motor direction per motor
+Place images in static/images/ and reference them like:
 
-Endpoint	Purpose
-/	Loads motor control page
-/temp	Loads temperature monitor page
-/faces	Shows face selection gallery
-/readtemp	Returns sensor data in text format
-/move	Accepts motor number and direction as params
+<img src="{{ url_for('static', filename='images/face1.jpg') }}">
+
+Use static/ for:
+	•	JS files
+	•	External CSS
+	•	Audio/video resources
+
+⸻
+
+Optional Features
+
+Feature	Description
+GPIO Control	Add actual hardware logic to /move
+Face Selection Logic	Add route /face?name=xxx for handling
+Fahrenheit Conversion	Convert sensor output from Celsius
+Mobile Optimizations	All HTML uses responsive layout
+
+
+
+⸻
+
+Endpoints Summary
+
+Endpoint	Method	Description
+/	GET	Loads motor control page
+/temp	GET	Loads temperature monitor
+/faces	GET	Loads face gallery
+/move	GET	Accepts motor + direction params
+/readtemp	GET	Returns temperature as plain text
+/face	GET	(Optional) Handle face selection

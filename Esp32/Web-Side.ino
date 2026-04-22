@@ -1,5 +1,5 @@
 // ============================================================
-// GLITCH PROJECT — WEB ESP32 (sketch_mar22a.ino)
+// GLITCH PROJECT — WEB ESP32
 // ============================================================
 // This controller does everything the user interacts with:
 //   - Hosts a Wi-Fi network the user connects to

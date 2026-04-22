@@ -1,5 +1,5 @@
 // ============================================================
-// GLITCH PROJECT — PANEL ESP32 (sketch_mar23a.ino)
+// GLITCH PROJECT — PANEL ESP32
 // ============================================================
 // This controller is responsible for one thing: displaying content
 // on the two chained 64x32 LED matrix panels.
